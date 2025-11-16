@@ -55,10 +55,11 @@ class App(tk.Frame):
 
         # Format the columns
 
-        self.columnconfigure(0, weight=1)
+        self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=0)
         self.columnconfigure(2, weight=0)
-        self.columnconfigure(3, weight=1)
+        self.columnconfigure(3, weight=0)
+        self.columnconfigure(4, weight=0)
 
 root = tk.Tk()
 root.title("Registration Form")
