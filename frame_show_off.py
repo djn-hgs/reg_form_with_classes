@@ -16,6 +16,21 @@ root.columnconfigure(0, weight=1)
 def title_change(new_text):
     title_label.configure(text=new_text)
 
+class ButtonThatKnowsWhatItIs(tk.Button):
+    def __init__(self, master, callback, x, y, *args, **kwargs):
+        tk.Button.__init__(self, master, *args, **kwargs)
+
+        self.x = x
+        self.y = y
+        self.callback = callback
+
+    def get_pos(self):
+        self.callback(f"I'm a button! {self.x} {self.y}")
+        return self.x, self.y
+
+def print_state(message):
+    print("The main program gets the message:", message)
+
 for i in range(8):
     for j in range(8):
         if (i + j) % 2 == 0:
@@ -25,11 +40,13 @@ for i in range(8):
         trippy_grid_frame = tk.Frame(big_frame, bg=c)
         trippy_grid_frame.grid(row=i, column=j, sticky="news")
 
-        new_button = tk.Button(trippy_grid_frame,
+        new_button = ButtonThatKnowsWhatItIs(trippy_grid_frame,
+                                             print_state, i, j,
                                text="Click here",
-                               command=lambda row=i, column=j: title_change(f"{row}, {column}"),
                                bg=c
                                )
+        new_button.config(command=new_button.get_pos)
+
         new_button.grid(sticky='news')
         trippy_grid_frame.rowconfigure(0, weight=1)
         trippy_grid_frame.columnconfigure(0, weight=1)
